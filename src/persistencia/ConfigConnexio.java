@@ -24,6 +24,7 @@ public class ConfigConnexio {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             con = DriverManager.getConnection("jdbc:oracle:thin:@ieslaferreria.xtec.cat:8081:INSLAFERRERI", "MATIAS", "1234");
+            System.out.println("Conectat amb la BD.");
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
@@ -49,6 +50,7 @@ public class ConfigConnexio {
 
     /**
      * Métode que torna la connexió.
+     *
      * @return connexió
      */
     public Connection getConnection() {
@@ -61,6 +63,7 @@ public class ConfigConnexio {
     public void closeConnection() {
         try {
             con.close();
+            System.out.println("Conexió tancada.");
         } catch (SQLException ex) {
             Logger.getLogger(ConfigConnexio.class.getName()).log(Level.SEVERE, null, ex);
         }

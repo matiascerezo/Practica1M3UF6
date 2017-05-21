@@ -15,34 +15,19 @@ public class VistaText {
      * Método que muestra por pantalla un menú con opciones y devuelve la opción
      * introducida por el usuario.
      *
-     * @return
      */
-    public int mostrarMenuPrincipal() {
-        int opcio;
-        boolean correcte;
-        do {
-            System.out.print("\n1. Afegir \n2. Afegir llista\n3. Esborrar\n4. Modificar"
-                    + "\n5. Cercar per NIF\n6. Cercar tots\n7. Sortir\nOpció: ");
-            opcio = lector.nextInt();
-            if (opcio > 7 || opcio < 1) {
-                correcte = false;
-                System.err.println("\nOpció no vàlida.");
-            } else {
-                correcte = true;
-            }
-        } while (!correcte);
-        return opcio;
+    public void mostrarMenuPrincipal() {
+        System.out.print("\n1. Afegir \n2. Afegir llista\n3. Esborrar\n4. Modificar"
+                + "\n5. Cercar per NIF\n6. Cercar tots\n7. Sortir\nOpció: ");
     }
 
     /**
-     * Métode que recull el nif per realitzar cerques, modificacions i
-     * eliminacions.
+     * Métode que recull l'opció del menú.
      *
      * @return
      */
-    public String recollirNif() {
-        System.out.println("Introdueix el Nif que vols:");
-        return lector.next();
+    public int recollirOpcio() {
+        return lector.nextInt();
     }
 
     /**
@@ -51,11 +36,34 @@ public class VistaText {
      * @return
      */
     public List<String> agafarValorsUsuari() {
-        List<String> valors = new ArrayList<>(3);
-        valors.add(JOptionPane.showInputDialog("Introdueix el Nif:"));
-        valors.add(JOptionPane.showInputDialog("Introdueix el nom:"));
-        valors.add(JOptionPane.showInputDialog("Introdueix el cognom:"));
+        List<String> valors = new ArrayList<>();
+        String nif = JOptionPane.showInputDialog("Introdueix el Nif:");
+        String nom = JOptionPane.showInputDialog("Introdueix el nom:");
+        String cognom = JOptionPane.showInputDialog("Introdueix el cognom:");
+        valors.add(nif);
+        valors.add(nom);
+        valors.add(cognom);
         return valors;
+    }
+
+    /**
+     * Métode que crea un objecte Usuari amb els valors recollits.
+     *
+     * @param valorsUser
+     * @return
+     */
+    public Usuari establirValorsUsuari(List<String> valorsUser) {
+        Usuari u = new Usuari(valorsUser.get(0), valorsUser.get(1), valorsUser.get(2));
+        return u;
+    }
+
+    /**
+     * Torna un string que será el nif del usuari per cerques, eliminacions.
+     *
+     * @return
+     */
+    public String agafarNifUsuari() {
+        return JOptionPane.showInputDialog("Introdueix el nif del usuari:");
     }
 
     /**
@@ -67,18 +75,15 @@ public class VistaText {
     public List<Usuari> llistaUsuarisPerAfegir() {
         String numUsuaris = JOptionPane.showInputDialog("Introdueix el número d'usuaris que vols afegir:");
         List<Usuari> llistaUsuaris = new ArrayList<>();
-        List<String> valorsUsuari;
         try {
-            if (numUsuaris.matches("^[2-100]")) {
+            if (numUsuaris.matches("\\d+")) {
                 for (int i = 0; i < Integer.parseInt(numUsuaris); i++) {
-                    valorsUsuari = agafarValorsUsuari();
-                    Usuari usuari = new Usuari(valorsUsuari.get(0),
-                            valorsUsuari.get(1), valorsUsuari.get(2));
-                    llistaUsuaris.add(usuari);
+                    Usuari u = establirValorsUsuari(agafarValorsUsuari());
+                    llistaUsuaris.add(u);
                 }
             }
         } catch (PatternSyntaxException pse) {
-            System.err.println("Solo se permiten números entre 2-100.");
+            System.err.println("Solo se permiten números.");
         }
         return llistaUsuaris;
     }
@@ -89,7 +94,7 @@ public class VistaText {
      * @param usuari
      */
     public void mostrarUsuari(Usuari usuari) {
-        System.out.println(usuari.toString());
+        System.out.println("\n" + usuari.toString());
     }
 
     /**
@@ -99,7 +104,7 @@ public class VistaText {
      */
     public void mostrarLlistaUsuaris(List<Usuari> llistaUsuaris) {
         for (Usuari usuari : llistaUsuaris) {
-            System.out.println(usuari.toString());
+            System.out.println("\n" + usuari.toString());
         }
     }
 
